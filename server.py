@@ -38,17 +38,16 @@ try:
         		
 
         		if flag == 1:
-        			ada = ""
+        			ada = "1"
         			input_socket[1].send(ada)
         			flag = 0
         		elif flag ==2:
-        			ada = "ada2"
+        			ada = "2"
         			input_socket[2].send(ada)
         			flag = 0
         		i+=1                
         	else:    
-        		data = ""
-        		data = sock.recv(size)
+        		data = sock.recv(2)
         		# if data != "":
         		# 	for i in clients:
         		# 		if i is not server_socket:
@@ -56,13 +55,15 @@ try:
         		# 			i.send(data)    
                 if data != "":
                 	print data
-                	player_split = data.split()
-                	player = player_split[14].strip()+" "+player_split[15].strip()
-                	if player == "Player 1":
-	                	clients[0].send(data)
-	            	elif player == "Player 2":
-                		clients[1].send(data)
+                	clients[0].send("ada "+data)
+	            	clients[1].send("ada "+data)
                 	data=""
+                else:
+                    if i>2:
+                        print data
+                        clients[0].send("non "+data)
+                        clients[1].send("non "+data)
+                        data=""
 
                 # elif data=="":
                 #     sock.close()
