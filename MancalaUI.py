@@ -1,14 +1,20 @@
 #Bryan Perez
 #email: perezjbryan@gmail.com
 # This file contains the main game loop for the mancala game and functions for the UI
-
-import pygame, sys, os, MancalaController# ,MyRNG
+import socket
+import pygame, sys, os, MancalaController, PlayerModel# ,MyRNG
 from pygame import K_1,K_2, K_3, K_4,K_5,K_6,K_7,K_8,K_9,K_0,K_MINUS,K_EQUALS,K_h
 
 ##########################################
 ##Intializes various items for the game
 ##########################################
 pygame.init()
+
+server_address = ('127.0.0.1', 5000)
+client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+client_socket.connect(server_address)
+buff = 1024
+
 clock = pygame.time.Clock()
 width = 745
 height = 430
@@ -386,81 +392,196 @@ def UpdateScreen():
 ## the game loop for mancala
 #################################################
 currentPlayerImage = player1 # player 1 goes first
-while running:
-            
-    for event in pygame.event.get():
-        if game.ReturnPlayerTurn() == "Player 1":
-            currentPlayerImage = player1
-        else:
-            currentPlayerImage = player2
-        
-        if event.type == pygame.QUIT:
-                running = 0
-        
-        if game.ContinueGame():
-            
-            if event.type == pygame.KEYDOWN:
-                if event.key == K_1:
-                    value = 1
-                    game.PlayerSelectsHole(value)
-                if  event.key == K_2:    
-                    value = 2
-                    game.PlayerSelectsHole(value)
-                if  event.key == K_3:    
-                    value = 3
-                    game.PlayerSelectsHole(value)
-                if  event.key == K_4:
-                    value = 4
-                    game.PlayerSelectsHole(value)
-                if  event.key == K_5:
-                    value = 5
-                    game.PlayerSelectsHole(value)
-                if  event.key == K_6:    
-                    value = 6
-                    game.PlayerSelectsHole(value)
+now_ = ""
+flag_pertama = 0
 
-                if  event.key ==  K_7:
-                    value = 12
-                    game.PlayerSelectsHole(value)
-                if  event.key == K_8:    
-                    value = 11
-                    game.PlayerSelectsHole(value)
-                if  event.key == K_9:
-                    value = 10
-                    game.PlayerSelectsHole(value)
-                if  event.key ==  K_0:
-                    value = 9
-                    game.PlayerSelectsHole(value)
-                if  event.key ==  K_MINUS:
-                    value = 8
-                    game.PlayerSelectsHole(value)
-                if  event.key ==  K_EQUALS:    
-                    value = 7
-                    game.PlayerSelectsHole(value)
-                if event.key == K_h:
-                    if helpflag == True:
-                        helpflag =False
+i=""
+
+if flag_pertama == 0:
+    player_awal = client_socket.recv(1)
+    flag_pertama = 1
+
+if player_awal == "1" :
+    flag_key_down = 0
+    player = "Player 1"
+    now = "Player 1"
+    while running:
+        for event in pygame.event.get():
+            temp = ""
+            data = ""
+            temp_finish = ""
+            if event.type == pygame.QUIT:
+                    running = 0
+            
+            if flag_key_down == 1:
+                data = client_socket.recv(2)
+                print "return " + data
+                if data != "":
+                    game.PlayerSelectsHole(int(data))
+                    temp_finish = data
+                    UpdateScreen()
+                    if game.ReturnPlayerTurn() == "Player 1":
+                        currentPlayerImage = player1
+                        flag_key_down = 0
+                        player = "Player 1"
                     else:
-                        helpflag = True
+                        currentPlayerImage = player2
+                        player = "Player 2"
+                    data = ""
                     
-                
-            screen.fill(bgcolor)
-            screen.blit(board, (100,100))
-                
-            UpdateScreen()
+
+            if game.ContinueGame():
+                if player == "Player 1":
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == K_1:
+                            value = 1
+                            #game.PlayerSelectsHole(value)
+                        if  event.key == K_2:    
+                            value = 2
+                            #game.PlayerSelectsHole(value)
+                        if  event.key == K_3:    
+                            value = 3
+                            #game.PlayerSelectsHole(value)
+                        if  event.key == K_4:
+                            value = 4
+                            #game.PlayerSelectsHole(value)
+                        if  event.key == K_5:
+                            value = 5
+                            #game.PlayerSelectsHole(value)
+                        if  event.key == K_6:    
+                            value = 6
+                            #game.PlayerSelectsHole(value)
+                        if event.key == K_h:
+                            if helpflag == True:
+                                helpflag =False
+                            else:
+                                helpflag = True
+
+                        client_socket.send(str(value))
+                        data = client_socket.recv(2)
+                        print "return " + data
+                        if data != "":
+                            game.PlayerSelectsHole(int(data))
+                            UpdateScreen()
+                            if game.ReturnPlayerTurn() == "Player 1":
+                                currentPlayerImage = player1
+                                player = "Player 1"
+                            else:
+                                currentPlayerImage = player2
+                                flag_key_down = 1
+                                player = "Player 2"
+                            data = ""
+                        
+
+                screen.fill(bgcolor)
+                screen.blit(board, (100,100))
+                UpdateScreen()
+            else: 
+                client_socket.send(temp_finish)
+                game.EndofGameLogic()
+                UpdateScreen()
+                winner = game.DetermineWinner()
+                if winner == "Player 1":
+                    screen.blit(player1wins, (355,40))
+                elif winner == "Player 2":
+                    screen.blit(player2wins, (355,40))
+                elif winner == "tie":
+                    screen.blit(tie, (355,40))
+                    
+                pygame.display.flip()
+
+
+elif player_awal == "2" :
+    player = "Player 2"
+    flag_key_down_2 = 1
+    now = "Player 2"
+    UpdateScreen()
+    while running:
         
-        else: 
-            game.EndofGameLogic()
-            UpdateScreen()
-            winner = game.DetermineWinner()
-            if winner == "Player 1":
-                screen.blit(player1wins, (355,40))
-            elif winner == "Player 2":
-                screen.blit(player2wins, (355,40))
-            elif winner == "tie":
-                screen.blit(tie, (355,40))
+
+        for event in pygame.event.get():
+            temp = ""
+            data = ""
+            temp_finish_2 = ""
+            if event.type == pygame.QUIT:
+                    running = 0
+
+            if flag_key_down_2 == 1:
+                data = client_socket.recv(2)
+                print "return " + data
+                if data != "":
+                    game.PlayerSelectsHole(int(data))
+                    temp_finish_2 = data
+                    UpdateScreen()
+                    if game.ReturnPlayerTurn() == "Player 1":
+                        currentPlayerImage = player1
+                        player = "Player 1"
+                    else:
+                        currentPlayerImage = player2
+                        flag_key_down_2 = 0
+                        player = "Player 2"
+                    data = ""
+            
+
+            if game.ContinueGame():
+                if player == "Player 2":
+                    if event.type == pygame.KEYDOWN:
+                        if  event.key ==  K_1:
+                            value = 12
+                            #game.PlayerSelectsHole(value)
+                        if  event.key == K_2:    
+                            value = 11
+                            #game.PlayerSelectsHole(value)
+                        if  event.key == K_3:
+                            value = 10
+                            #game.PlayerSelectsHole(value)
+                        if  event.key ==  K_4:
+                            value = 9
+                            #game.PlayerSelectsHole(value)
+                        if  event.key ==  K_5:
+                            value = 8
+                            #game.PlayerSelectsHole(value)
+                        if  event.key ==  K_6:    
+                            value = 7
+                            #game.PlayerSelectsHole(value)
+                        if event.key == K_h:
+                            if helpflag == True:
+                                helpflag =False
+                            else:
+                                helpflag = True
+                        client_socket.send(str(value))
+
+                        data = client_socket.recv(2)
+                        print "return " + data
+                        if data != "":
+                            game.PlayerSelectsHole(int(data))
+                            UpdateScreen()
+                            if game.ReturnPlayerTurn() == "Player 1":
+                                currentPlayerImage = player1
+                                flag_key_down_2 = 1
+                                player = "Player 1"
+                            else:
+                                currentPlayerImage = player2
+                                player = "Player 2"
+                            data = ""
+                        
+                screen.fill(bgcolor)
+                screen.blit(board, (100,100))
+                UpdateScreen()
                 
-            pygame.display.flip()
+            else: 
+                client_socket.send(temp_finish_2)
+                game.EndofGameLogic()
+                UpdateScreen()
+                winner = game.DetermineWinner()
+                if winner == "Player 1":
+                    screen.blit(player1wins, (355,40))
+                elif winner == "Player 2":
+                    screen.blit(player2wins, (355,40))
+                elif winner == "tie":
+                    screen.blit(tie, (355,40))
+                    
+                pygame.display.flip()
     
 
 
