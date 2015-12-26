@@ -396,13 +396,13 @@ now_ = ""
 flag_pertama = 0
 
 i=""
-flag_key_down = 0
+
 if flag_pertama == 0:
     player_awal = client_socket.recv(1)
     flag_pertama = 1
 
 if player_awal == "1" :
- 
+    flag_key_down = 0
     player = "Player 1"
     now = "Player 1"
     while running:
@@ -422,12 +422,13 @@ if player_awal == "1" :
                     UpdateScreen()
                     if game.ReturnPlayerTurn() == "Player 1":
                         currentPlayerImage = player1
+                        flag_key_down = 0
                         player = "Player 1"
                     else:
                         currentPlayerImage = player2
                         player = "Player 2"
                     data = ""
-                    flag_key_down = 0
+                    
 
             if game.ContinueGame():
                 if player == "Player 1":
@@ -457,7 +458,19 @@ if player_awal == "1" :
                                 helpflag = True
 
                         client_socket.send(str(value))
-                        flag_key_down = 1
+                        data = client_socket.recv(2)
+                        print "return " + data
+                        if data != "":
+                            game.PlayerSelectsHole(int(data))
+                            UpdateScreen()
+                            if game.ReturnPlayerTurn() == "Player 1":
+                                currentPlayerImage = player1
+                                player = "Player 1"
+                            else:
+                                currentPlayerImage = player2
+                                flag_key_down = 1
+                                player = "Player 2"
+                            data = ""
                         
 
                 screen.fill(bgcolor)
@@ -480,6 +493,7 @@ if player_awal == "1" :
 
 elif player_awal == "2" :
     player = "Player 2"
+    flag_key_down_2 = 1
     now = "Player 2"
     UpdateScreen()
     while running:
@@ -492,23 +506,24 @@ elif player_awal == "2" :
             if event.type == pygame.QUIT:
                     running = 0
 
-            if game.ContinueGame():
-                if flag_key_down == 0:
-                    data = client_socket.recv(2)
-                    print "return " + data
-                    if data != "":
-                        game.PlayerSelectsHole(int(data))
-                        temp_finish_2 = data
-                        UpdateScreen()
-                        if game.ReturnPlayerTurn() == "Player 1":
-                            currentPlayerImage = player1
-                            player = "Player 1"
-                        else:
-                            currentPlayerImage = player2
-                            player = "Player 2"
-                        data = ""
-                        flag_key_down = 1
+            if flag_key_down_2 == 1:
+                data = client_socket.recv(2)
+                print "return " + data
+                if data != "":
+                    temp_finish_2 = data
+                    game.PlayerSelectsHole(int(data))
+                    UpdateScreen()
+                    if game.ReturnPlayerTurn() == "Player 1":
+                        currentPlayerImage = player1
+                        player = "Player 1"
+                    else:
+                        currentPlayerImage = player2
+                        flag_key_down_2 = 0
+                        player = "Player 2"
+                    data = ""
+            
 
+            if game.ContinueGame():
                 if player == "Player 2":
                     if event.type == pygame.KEYDOWN:
                         if  event.key ==  K_1:
@@ -534,9 +549,21 @@ elif player_awal == "2" :
                                 helpflag =False
                             else:
                                 helpflag = True
-                        flag_key_down = 1
                         client_socket.send(str(value))
-                        
+
+                        data = client_socket.recv(2)
+                        print "return " + data
+                        if data != "":
+                            game.PlayerSelectsHole(int(data))
+                            UpdateScreen()
+                            if game.ReturnPlayerTurn() == "Player 1":
+                                currentPlayerImage = player1
+                                flag_key_down_2 = 1
+                                player = "Player 1"
+                            else:
+                                currentPlayerImage = player2
+                                player = "Player 2"
+                            data = ""
                         
                 screen.fill(bgcolor)
                 screen.blit(board, (100,100))
