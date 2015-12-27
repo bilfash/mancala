@@ -11,7 +11,7 @@ from pygame import K_1,K_2, K_3, K_4,K_5,K_6,K_7,K_8,K_9,K_0,K_MINUS,K_EQUALS,K_
 ##########################################
 pygame.init()
 
-server_address = ('127.0.0.1', 5000)
+server_address = ('10.151.63.115', 5000)
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client_socket.connect(server_address)
 buff = 1024
@@ -420,7 +420,6 @@ if player_awal == "1" :
                 print "return " + data
                 if data != "":
                     game.PlayerSelectsHole(value)
-                    temp_finish = data
                     UpdateScreen()
                     if game.ReturnPlayerTurn() == "Player 1":
                         currentPlayerImage = player1
@@ -480,7 +479,7 @@ if player_awal == "1" :
                 screen.blit(board, (100,100))
                 UpdateScreen()
             else: 
-                client_socket.send(temp_finish)
+                client_socket.send(pickle.dumps(value))
                 game.EndofGameLogic()
                 UpdateScreen()
                 winner = game.DetermineWinner()
@@ -492,6 +491,7 @@ if player_awal == "1" :
                     screen.blit(tie, (355,40))
                     
                 pygame.display.flip()
+                client_socket.send("tutup")
 
 
 elif player_awal == "2" :
@@ -515,7 +515,6 @@ elif player_awal == "2" :
                 print "return " + data
                 if data != "":
                     game.PlayerSelectsHole(value)
-                    temp_finish_2 = data
                     UpdateScreen()
                     if game.ReturnPlayerTurn() == "Player 1":
                         currentPlayerImage = player1
@@ -575,7 +574,8 @@ elif player_awal == "2" :
                 UpdateScreen()
                 
             else: 
-                client_socket.send(temp_finish_2)
+                client_socket.send(pickle.dumps(value))
+
                 game.EndofGameLogic()
                 UpdateScreen()
                 winner = game.DetermineWinner()
@@ -587,6 +587,7 @@ elif player_awal == "2" :
                     screen.blit(tie, (355,40))
                     
                 pygame.display.flip()
+                client_socket.send("tutup")
     
 
 
