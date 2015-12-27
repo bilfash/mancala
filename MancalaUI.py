@@ -11,7 +11,7 @@ from pygame import K_1,K_2, K_3, K_4,K_5,K_6,K_7,K_8,K_9,K_0,K_MINUS,K_EQUALS,K_
 ##########################################
 pygame.init()
 
-server_address = ('10.151.63.115', 5000)
+server_address = ('localhost', 5000)
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client_socket.connect(server_address)
 buff = 1024
