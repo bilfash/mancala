@@ -436,30 +436,25 @@ if player_awal == "1" :
                     if event.type == pygame.KEYDOWN:
                         if event.key == K_1:
                             value = 1
-                            #game.PlayerSelectsHole(value)
-                        if  event.key == K_2:    
+                        if event.key == K_2:    
                             value = 2
-                            #game.PlayerSelectsHole(value)
-                        if  event.key == K_3:    
+                        if event.key == K_3:    
                             value = 3
-                            #game.PlayerSelectsHole(value)
-                        if  event.key == K_4:
+                        if event.key == K_4:
                             value = 4
-                            #game.PlayerSelectsHole(value)
-                        if  event.key == K_5:
+                        if event.key == K_5:
                             value = 5
-                            #game.PlayerSelectsHole(value)
-                        if  event.key == K_6:    
+                        if event.key == K_6:    
                             value = 6
-                            #game.PlayerSelectsHole(value)
+                        
                         if event.key == K_h:
                             if helpflag == True:
-                                helpflag =False
+                                helpflag = False
                             else:
                                 helpflag = True
 
                         client_socket.send(pickle.dumps(value))
-                        data = client_socket.recv(32)
+                        data = client_socket.recv(36)
                         value = pickle.loads(data)
                         print "return " + data
                         if data != "":
@@ -529,31 +524,26 @@ elif player_awal == "2" :
             if game.ContinueGame():
                 if player == "Player 2":
                     if event.type == pygame.KEYDOWN:
-                        if  event.key ==  K_1:
+                        if event.key == K_1:
                             value = 12
-                            #game.PlayerSelectsHole(value)
-                        if  event.key == K_2:    
+                        if event.key == K_2:    
                             value = 11
-                            #game.PlayerSelectsHole(value)
-                        if  event.key == K_3:
+                        if event.key == K_3:
                             value = 10
-                            #game.PlayerSelectsHole(value)
-                        if  event.key ==  K_4:
+                        if event.key == K_4:
                             value = 9
-                            #game.PlayerSelectsHole(value)
-                        if  event.key ==  K_5:
+                        if event.key == K_5:
                             value = 8
-                            #game.PlayerSelectsHole(value)
-                        if  event.key ==  K_6:    
+                        if event.key == K_6:    
                             value = 7
-                            #game.PlayerSelectsHole(value)
+                        
                         if event.key == K_h:
                             if helpflag == True:
-                                helpflag =False
+                                helpflag = False
                             else:
                                 helpflag = True
-                        client_socket.send(pickle.dumps(value))
 
+                        client_socket.send(pickle.dumps(value))
                         data = client_socket.recv(36)
                         value = pickle.loads(data)
                         print "return " + data

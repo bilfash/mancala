@@ -93,7 +93,7 @@ try:
                         clients.remove(clients[b-1])
                         i-=2
                 elif data != "":
-                    #print data
+                    print pickle.loads(data)
                     thread.start_new_thread( gameplay, (data, a) )
                     #data=""
                 
