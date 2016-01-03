@@ -7,7 +7,7 @@ import thread
 import pickle
 
 input_socket = []
-server_address = ('10.151.63.115', 5000)
+server_address = ('localhost', 5000)
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 server_socket.bind(server_address)
@@ -93,7 +93,7 @@ try:
                         clients.remove(clients[b-1])
                         i-=2
                 elif data != "":
-                    #print data
+                    print pickle.loads(data)
                     thread.start_new_thread( gameplay, (data, a) )
                     #data=""
                 

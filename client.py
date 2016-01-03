@@ -1,6 +1,3 @@
-#Bryan Perez
-#email: perezjbryan@gmail.com
-# This file contains the main game loop for the mancala game and functions for the UI
 import socket
 import pickle
 import pygame, sys, os, MancalaController, PlayerModel# ,MyRNG
@@ -578,30 +575,3 @@ elif player_awal == "2" :
                     
                 pygame.display.flip()
                 client_socket.send("tutup")
-    
-
-
-
-
-
-    
-    
-    
-
-
-'''
-#############################
-# Extra stuff
-############################    
-#clock.tick(200)
-            
-            elif event.type == pygame.MOUSEMOTION:
-                print"mouse at(%d, %d)" % event.pos #event.pos returns a pair of values representing the x-position and y-position of the mouse pointer
-                x, y = event.pos
-            elif event.type == pygame.MOUSEBUTTONUP and event.button == LEFT:
-                print "You released the left mouse button at (%d, %d)" % event.pos
-            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == LEFT:    
-                print "You pressed the left mouse button at (%d, %d)" % event.pos
-                if x>180 & x <237 & y > 110 & y <167:#hole12
-'''    
-
