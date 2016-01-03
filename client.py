@@ -17,7 +17,7 @@ clock = pygame.time.Clock()
 width = 745
 height = 430
 screen = pygame.display.set_mode((width, height))
-pygame.display.set_caption('Mancala!')
+pygame.display.set_caption('DAK-WOH (DAKon-joWOH)!!')
 running = 1
 #rand = MyRNG.MyRNG() 
 LEFT = 1
