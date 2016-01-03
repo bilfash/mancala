@@ -22,7 +22,7 @@ class MancalaController:
         
 
     def ReturnHoleValue(self, hole):
-        self.board.printb()
+        #self.board.printb()
         return self.board.ReturnHoleValue(hole)
         
     def ReturnStoresValue(self):
@@ -34,17 +34,17 @@ class MancalaController:
         
         if self.Current_Player.PlayerName() == "Player 1":
             player1 = self.Current_Player.Score()
-            print "player 1: ", self.Current_Player.Score()
+            #print "player 1: ", self.Current_Player.Score()
         elif self.Other_Player.PlayerName() == "Player 1":
             player1 = self.Other_Player.Score()
-            print "player 1: ", self.Other_Player.Score()
+            #print "player 1: ", self.Other_Player.Score()
             
         if self.Current_Player.PlayerName() == "Player 2":
             player2 = self.Current_Player.Score()
-            print "player2: ", self.Current_Player.Score()
+            #print "player2: ", self.Current_Player.Score()
         elif self.Other_Player.PlayerName() == "Player 2":
             player2 = self.Other_Player.Score()
-            print "player 2: ", self.Other_Player.Score()
+            #print "player 2: ", self.Other_Player.Score()
             
         scoreTuple =(player1, player2)
         return scoreTuple
