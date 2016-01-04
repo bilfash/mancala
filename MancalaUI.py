@@ -11,7 +11,7 @@ from pygame import K_1,K_2, K_3, K_4,K_5,K_6,K_7,K_8,K_9,K_0,K_MINUS,K_EQUALS,K_
 ##########################################
 pygame.init()
 
-server_address = ('127.0.0.1', 5000)
+server_address = ('localhost', 5000)
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client_socket.connect(server_address)
 buff = 1024
@@ -420,7 +420,6 @@ if player_awal == "1" :
                 print "return " + data
                 if data != "":
                     game.PlayerSelectsHole(value)
-                    temp_finish = data
                     UpdateScreen()
                     if game.ReturnPlayerTurn() == "Player 1":
                         currentPlayerImage = player1
@@ -437,30 +436,25 @@ if player_awal == "1" :
                     if event.type == pygame.KEYDOWN:
                         if event.key == K_1:
                             value = 1
-                            #game.PlayerSelectsHole(value)
-                        if  event.key == K_2:    
+                        if event.key == K_2:    
                             value = 2
-                            #game.PlayerSelectsHole(value)
-                        if  event.key == K_3:    
+                        if event.key == K_3:    
                             value = 3
-                            #game.PlayerSelectsHole(value)
-                        if  event.key == K_4:
+                        if event.key == K_4:
                             value = 4
-                            #game.PlayerSelectsHole(value)
-                        if  event.key == K_5:
+                        if event.key == K_5:
                             value = 5
-                            #game.PlayerSelectsHole(value)
-                        if  event.key == K_6:    
+                        if event.key == K_6:    
                             value = 6
-                            #game.PlayerSelectsHole(value)
+                        
                         if event.key == K_h:
                             if helpflag == True:
-                                helpflag =False
+                                helpflag = False
                             else:
                                 helpflag = True
 
                         client_socket.send(pickle.dumps(value))
-                        data = client_socket.recv(32)
+                        data = client_socket.recv(36)
                         value = pickle.loads(data)
                         print "return " + data
                         if data != "":
@@ -480,7 +474,7 @@ if player_awal == "1" :
                 screen.blit(board, (100,100))
                 UpdateScreen()
             else: 
-                client_socket.send(temp_finish)
+                client_socket.send(pickle.dumps(value))
                 game.EndofGameLogic()
                 UpdateScreen()
                 winner = game.DetermineWinner()
@@ -492,6 +486,7 @@ if player_awal == "1" :
                     screen.blit(tie, (355,40))
                     
                 pygame.display.flip()
+                client_socket.send("tutup")
 
 
 elif player_awal == "2" :
@@ -515,7 +510,6 @@ elif player_awal == "2" :
                 print "return " + data
                 if data != "":
                     game.PlayerSelectsHole(value)
-                    temp_finish_2 = data
                     UpdateScreen()
                     if game.ReturnPlayerTurn() == "Player 1":
                         currentPlayerImage = player1
@@ -530,31 +524,26 @@ elif player_awal == "2" :
             if game.ContinueGame():
                 if player == "Player 2":
                     if event.type == pygame.KEYDOWN:
-                        if  event.key ==  K_1:
+                        if event.key == K_1:
                             value = 12
-                            #game.PlayerSelectsHole(value)
-                        if  event.key == K_2:    
+                        if event.key == K_2:    
                             value = 11
-                            #game.PlayerSelectsHole(value)
-                        if  event.key == K_3:
+                        if event.key == K_3:
                             value = 10
-                            #game.PlayerSelectsHole(value)
-                        if  event.key ==  K_4:
+                        if event.key == K_4:
                             value = 9
-                            #game.PlayerSelectsHole(value)
-                        if  event.key ==  K_5:
+                        if event.key == K_5:
                             value = 8
-                            #game.PlayerSelectsHole(value)
-                        if  event.key ==  K_6:    
+                        if event.key == K_6:    
                             value = 7
-                            #game.PlayerSelectsHole(value)
+                        
                         if event.key == K_h:
                             if helpflag == True:
-                                helpflag =False
+                                helpflag = False
                             else:
                                 helpflag = True
-                        client_socket.send(pickle.dumps(value))
 
+                        client_socket.send(pickle.dumps(value))
                         data = client_socket.recv(36)
                         value = pickle.loads(data)
                         print "return " + data
@@ -575,7 +564,8 @@ elif player_awal == "2" :
                 UpdateScreen()
                 
             else: 
-                client_socket.send(temp_finish_2)
+                client_socket.send(pickle.dumps(value))
+
                 game.EndofGameLogic()
                 UpdateScreen()
                 winner = game.DetermineWinner()
@@ -587,6 +577,7 @@ elif player_awal == "2" :
                     screen.blit(tie, (355,40))
                     
                 pygame.display.flip()
+                client_socket.send("tutup")
     
 
 
