@@ -1,7 +1,7 @@
 Bryan Perez
 perezjbryan@gmail.com	
 CPSC386
-
+jjjjjj
 README FILE
 
 I created the game Mancala. There was no short comings and there are no known bugs.
