@@ -424,7 +424,7 @@ if player_awal == "1" :
             if flag_key_down == 1:
                 data = client_socket.recv(36)
                 value = pickle.loads(data)
-                print "return " + data
+                print "Get = " + str(value)
                 if data != "":
                     game.PlayerSelectsHole(value)
                     UpdateScreen()
@@ -463,7 +463,7 @@ if player_awal == "1" :
                         client_socket.send(pickle.dumps(value))
                         data = client_socket.recv(36)
                         value = pickle.loads(data)
-                        print "return " + data
+                        print "Send = " + str(value)
                         if data != "":
                             game.PlayerSelectsHole(value)
                             UpdateScreen()
@@ -515,7 +515,7 @@ elif player_awal == "2" :
             if flag_key_down_2 == 1:
                 data = client_socket.recv(36)
                 value = pickle.loads(data)
-                print "return " + data
+                print "Get = " + str(value)
                 if data != "":
                     game.PlayerSelectsHole(value)
                     UpdateScreen()
@@ -554,7 +554,7 @@ elif player_awal == "2" :
                         client_socket.send(pickle.dumps(value))
                         data = client_socket.recv(36)
                         value = pickle.loads(data)
-                        print "return " + data
+                        print "Send = " + str(value)
                         if data != "":
                             game.PlayerSelectsHole(value)
                             UpdateScreen()
