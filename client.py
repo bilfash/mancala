@@ -101,6 +101,10 @@ player1_path = os.path.join("images","player1.jpg")
 player1 = pygame.image.load(player1_path).convert()
 player2_path = os.path.join("images","player2.jpg") 
 player2 = pygame.image.load(player2_path).convert()
+player1label_path = os.path.join("images","player1_label.jpg") 
+player1label = pygame.image.load(player1label_path).convert()
+player2label_path = os.path.join("images","player2_label.jpg") 
+player2label = pygame.image.load(player2label_path).convert()
 player1wins_path = os.path.join("images","player1wins.jpg") 
 player1wins = pygame.image.load(player1wins_path).convert()
 player2wins_path = os.path.join("images","player2wins.jpg") 
@@ -293,11 +297,14 @@ def ReturnStoreImage(value):
         return sm
 
 
-
 def UpdateScreen():
             #----------------------------------------------------
             # Hole Counts
-            
+            if fla == "Player 1":
+                screen.blit(player1label,(574,0))
+            else :
+                screen.blit(player2label,(574,0))
+
             count12 = ReturnImageForScore(game.ReturnHoleValue(12))
             count11 = ReturnImageForScore(game.ReturnHoleValue(11))
             count10 = ReturnImageForScore(game.ReturnHoleValue(10))
@@ -378,6 +385,7 @@ def UpdateScreen():
         
             screen.blit(store2, (118,110)) #173x232
             screen.blit(store1, (574,110)) #629x232
+            
             #----------------------------------------------------
             
             #updates the screen with the new data
@@ -392,6 +400,7 @@ def UpdateScreen():
 currentPlayerImage = player1 # player 1 goes first
 now_ = ""
 flag_pertama = 0
+fla = ""
 
 i=""
 
@@ -403,6 +412,7 @@ if player_awal == "1" :
     flag_key_down = 0
     player = "Player 1"
     now = "Player 1"
+    fla = "Player 1"
     while running:
         for event in pygame.event.get():
             temp = ""
@@ -490,6 +500,7 @@ elif player_awal == "2" :
     player = "Player 2"
     flag_key_down_2 = 1
     now = "Player 2"
+    fla = "Player 2"
     UpdateScreen()
     while running:
         
