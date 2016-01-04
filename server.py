@@ -7,7 +7,7 @@ import thread
 import pickle
 
 input_socket = []
-server_address = ('localhost', 5000)
+server_address = ('127.0.0.1', 5000)
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 server_socket.bind(server_address)
@@ -63,40 +63,17 @@ try:
                 thread.start_new_thread(player_tag,("player"+str(i), i))
                 i+=1
             else:
-                #data = ""
+                data = ""
                 data = sock.recv(36)
                 a=0
-                b=1
                 for sock_temp in clients:
                     if sock_temp == sock:
                         break
                     a+=1
-                    b+=1
-                
-                if "tutup" in data:
-                    if b%2 == 0:
-                        time.sleep(5)
-                        input_socket[b].close()
-                        input_socket[b-1].close()
-                        input_socket.remove(input_socket[b-1])
-                        input_socket.remove(input_socket[b-1])
-                        clients.remove(clients[b-2])
-                        clients.remove(clients[b-2])
-                        i-=2
-                    else:
-                        time.sleep(5)
-                        input_socket[b].close()
-                        input_socket[b+1].close()
-                        input_socket.remove(input_socket[b])
-                        input_socket.remove(input_socket[b])
-                        clients.remove(clients[b-1])
-                        clients.remove(clients[b-1])
-                        i-=2
-                elif data != "":
-                    print pickle.loads(data)
+                if data != "":
+                    #print data
                     thread.start_new_thread( gameplay, (data, a) )
-                    #data=""
-                
+                    data=""
                 	
 except KeyboardInterrupt:        
     server_socket.close()
