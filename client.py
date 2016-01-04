@@ -17,8 +17,9 @@ clock = pygame.time.Clock()
 width = 745
 height = 430
 screen = pygame.display.set_mode((width, height))
-pygame.display.set_caption('DAK-WOH (DAKon-joWOH)!!')
+pygame.display.set_caption('Mancala!')
 running = 1
+#rand = MyRNG.MyRNG() 
 LEFT = 1
 bgcolor = ( 0, 0, 0)
 game = MancalaController.MancalaController()
@@ -46,7 +47,21 @@ h5_path = os.path.join("images","5.jpg")
 h5 = pygame.image.load(h5_path).convert()
 hm_path = os.path.join("images","m.jpg") 
 hm = pygame.image.load(hm_path).convert()
-
+'''
+#alternative holes images
+h1a_path = os.path.join("images","1a.jpg") 
+h1a = pygame.image.load(h1a_path).convert()
+h2a_path = os.path.join("images","2a.jpg") 
+h2a = pygame.image.load(h2a_path).convert()
+h3a_path = os.path.join("images","3a.jpg") 
+h3a = pygame.image.load(h3a_path).convert()
+h4a_path = os.path.join("images","4a.jpg") 
+h4a = pygame.image.load(h4a_path).convert()
+h5a_path = os.path.join("images","5a.jpg") 
+h5a = pygame.image.load(h5a_path).convert()
+hma_path = os.path.join("images","ma.jpg") 
+hma = pygame.image.load(hma_path).convert()
+'''
 #stores
 se_path = os.path.join("images","se.jpg") 
 se = pygame.image.load(se_path).convert()
@@ -63,6 +78,21 @@ s5_path = os.path.join("images","s5.jpg")
 s5 = pygame.image.load(s5_path).convert()
 sm_path = os.path.join("images","sm.jpg") 
 sm = pygame.image.load(sm_path).convert()
+
+'''
+s1a_path = os.path.join("images","s1a.jpg") 
+s1a = pygame.image.load(s1a_path).convert()
+s2a_path = os.path.join("images","s2a.jpg") 
+s2a = pygame.image.load(s2a_path).convert()
+s3a_path = os.path.join("images","s3a.jpg") 
+s3a = pygame.image.load(s3a_path).convert()
+s4a_path = os.path.join("images","s4a.jpg") 
+s4a = pygame.image.load(s4a_path).convert()
+s5a_path = os.path.join("images","s5a.jpg") 
+s5a = pygame.image.load(s5a_path).convert()
+sma_path = os.path.join("images","sma.jpg") 
+sma = pygame.image.load(sma_path).convert()
+'''
 
 #help board & winings & turns & Mancala
 boardhelp_path = os.path.join("images","boardhelp.jpg") 

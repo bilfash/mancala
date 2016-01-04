@@ -63,7 +63,6 @@ try:
                 thread.start_new_thread(player_tag,("player"+str(i), i))
                 i+=1
             else:
-                #data = ""
                 data = sock.recv(36)
                 a=0
                 b=1
@@ -95,7 +94,6 @@ try:
                 elif data != "":
                     print pickle.loads(data)
                     thread.start_new_thread( gameplay, (data, a) )
-                    #data=""
                 
                 	
 except KeyboardInterrupt:        
