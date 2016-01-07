@@ -18,11 +18,12 @@ dict={}
 clients = []
 clients_stream = []
 i=1
+q=1
 flag = 0
 data = ""
 
-def player_tag(threadName, z):
-    print z
+def player_tag(threadName, z, q):
+    #print z
     if z%2 == 1:
         flag = 1
     else:
@@ -30,23 +31,21 @@ def player_tag(threadName, z):
     
 
     if flag == 1:
-        ada = "1"
+        ada = "1 "+str(q)
         input_socket[z].send(ada)
         flag = 0
     elif flag ==2 and z>1:
-        ada = "2"
+        ada = "2 "+str(q)
         input_socket[z].send(ada)
         flag = 0
 
 def gameplay(data, y):
-    print y
+    #print y
     print data
     if y%2 == 0:
-        clients[y].send(data)
         clients[y+1].send(data)
     else:
         clients[y-1].send(data)
-        clients[y].send(data)
 
 try:
     while True:
@@ -60,9 +59,11 @@ try:
                 print "Player " + str(i) + " Connected " + str(client_address[1])
                 clients.append(client_socket)
                 clients_stream.append(client_address)
-                thread.start_new_thread(player_tag,("player"+str(i), i))
+                thread.start_new_thread(player_tag,("player"+str(i), i, q))
+                q+=1
                 i+=1
             else:
+                #data = ""
                 data = sock.recv(36)
                 a=0
                 b=1
@@ -79,8 +80,11 @@ try:
                         input_socket[b-1].close()
                         input_socket.remove(input_socket[b-1])
                         input_socket.remove(input_socket[b-1])
+                        print "Player " , b-1 , "disconnected"
+                        print "Player " , b , "disconnected"
                         clients.remove(clients[b-2])
                         clients.remove(clients[b-2])
+
                         i-=2
                     else:
                         time.sleep(5)
@@ -88,12 +92,15 @@ try:
                         input_socket[b+1].close()
                         input_socket.remove(input_socket[b])
                         input_socket.remove(input_socket[b])
+                        print "Player " , b , "disconnected"
+                        print "Player " , b+1 , "disconnected"
                         clients.remove(clients[b-1])
                         clients.remove(clients[b-1])
                         i-=2
                 elif data != "":
-                    print pickle.loads(data)
+                    #print pickle.loads(data)
                     thread.start_new_thread( gameplay, (data, a) )
+                    #data=""
                 
                 	
 except KeyboardInterrupt:        
